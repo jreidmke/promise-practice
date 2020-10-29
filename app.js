@@ -1,5 +1,10 @@
-function hello() {
-    console.log("HELLO");
+const baseURL = "http://numbersapi.com/random?json";
+
+
+function getOneNumFacts() {
+    axios.get(`${baseURL}`)
+    .then(data => $("#num-facts").append(`<li>${data.data.text}</li>`))
+    .catch(err => console.log(err))
 }
 
-hello()
+$("#num-btn").on('click', getOneNumFacts)
