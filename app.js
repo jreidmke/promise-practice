@@ -1,6 +1,5 @@
 const baseURL = "http://numbersapi.com/random?json";
 
-
 function getOneNumFacts() {
     axios.get(`${baseURL}`)
     .then(data => $("#num-facts").append(`<li>${data.data.text}</li>`))
@@ -36,3 +35,25 @@ function oneNumFourFacts() {
 $("#num-btn").on('click', getOneNumFacts);
 $("#num-4").on("click", getMoreFacts);
 $("#1-num-4-fax").on('click', oneNumFourFacts);
+
+let id;
+
+function shuffleDeck() {
+    axios.get(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
+    .then(data => {
+        id = data.data.deck_id;
+    })
+    .catch(err => console.log(err));
+}
+
+function drawCard() {
+    axios.get(`https://deckofcardsapi.com/api/deck/${id}/draw/?count=1`)
+    .then(data => {
+        console.log(data);
+        $("#card").attr("src", data.data.cards[0].image)
+    })
+    .catch(err => console.log(err));
+}
+
+$(document).ready(shuffleDeck);
+$("#card-btn").on("click", drawCard);
